@@ -21,6 +21,10 @@ const TaskSchema = new Schema(
             type:Number,
             max:3,
             default:1
+        },
+        isActive:{
+            type:Boolean,
+            default:true
         }
     },
     {

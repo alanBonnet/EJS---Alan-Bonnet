@@ -1,18 +1,14 @@
 // Importamos el modelo
 const TaskModel = require('../models/TASKS');
+const { findByIdAndUpdate } = require('../models/USERS');
 
 // Inicializamos el objeto CtrlTask
 const ctrlTask = {};
 
 ctrlTask.getTasks = async (req, res) => {
-    const Tasks = await TaskModel.find();
+    const Tasks = await TaskModel.find(/* {isActive:true} */);//devuelve solo las tareas que tengan su propiedad isActive en true
 
-    return res.json(
-        {
-            message: "Tareas Encontradas.",
-            Tasks
-        }
-    )
+    return res.render("index",{Tasks})
 }
 /* 
     tanto el getTask1 y el putTask en la url
@@ -69,32 +65,29 @@ ctrlTask.postTask = async (req, res) => {
 };
 
 ctrlTask.putTask = async (req, res) => {
+
+    const id = req.params.idTask;
+
+    const { nombre, motivo , ... otroDato } = req.body;
+
+    if(!id || !nombre || !motivo) {
+        return res.status(400).json({
+            msg:"No viene id en la petición."
+        })
+    }
     try {
-        const id_task =  req.params['idTask'];
-        const {nombre, motivo, fecha, estado} = req.body;
-        const TaskAmodificar = 
-            {
-                nombre,
-                motivo,
-                fecha,
-                estado
-            };
-            
-        const TaskModificada = await TaskModel.findByIdAndUpdate(id_task, TaskAmodificar);
-        return res.json(
-            {
-                message: "REQ PUT",
-                id_task,
-                TaskModificada
-            }
-        )
+        const tareaActualizada = await TaskModel.findByIdAndUpdate(id, {nombre, motivo})
+        
     } catch (error) {
-        res.status(404).send(`La id Buscada puede que no exista en la DB: ${error}`)
+        console.log(error.message);
+        return res.status(500).json({
+            msg: "Error al actualizar la tarea"
+        })
     }
 }
 
 ctrlTask.deleteTask = async (req, res) => {
-    try {
+    /* try {
         const id_task = req.params['idTask'];
         TaskModel.findByIdAndDelete(id_task).exec()
         return res.json(
@@ -105,6 +98,17 @@ ctrlTask.deleteTask = async (req, res) => {
         )
     } catch (error) {
         console.log(`Error, no se pudo eliminar la tarea: ${error}`)
+    } */
+    const id = req.params.idTask;
+    try {
+     await TaskModel.findByIdAndUpdate(id, {isActive:false});
+
+     
+    } catch (err) {
+      console.log(err.message)
+      return res.status(500).json({
+        msg: 'Internal Server Error' 
+     })
     }
 };
 
