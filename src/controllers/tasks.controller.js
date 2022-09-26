@@ -24,7 +24,7 @@ ctrlTask.getTask1 = async (req, res) => {
         // || TaskModel.find({id: req.params['idTask']}))
         const Task = await TaskModel.findById(req.params['idTask'] ) ;
         const vaciOLleno = Task === null
-        if(!vaciOLleno ){
+        if(!vaciOLleno || Task.length > 0){
             return res.json(
                 {
                     message: "Tarea encontrada.",
@@ -76,8 +76,16 @@ ctrlTask.putTask = async (req, res) => {
         })
     }
     try {
-        const tareaActualizada = await TaskModel.findByIdAndUpdate(id, {nombre, motivo})
-        
+        const tareaActualizada = await TaskModel.findByIdAndUpdate(id, {nombre, motivo}, (err, docs)=>{
+            if(err){
+                console.log(err)
+            }else{
+                console.log("updated User : ", docs)
+            }
+        });
+        res.json({
+            tareaActualizada
+        })
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({
@@ -103,7 +111,7 @@ ctrlTask.deleteTask = async (req, res) => {
     try {
      await TaskModel.findByIdAndUpdate(id, {isActive:false});
 
-     
+     return res.status(200)
     } catch (err) {
       console.log(err.message)
       return res.status(500).json({
