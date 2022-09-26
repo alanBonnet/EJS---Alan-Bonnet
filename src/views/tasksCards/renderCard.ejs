@@ -1,0 +1,26 @@
+<div class="container">
+        
+    <div class="row my-5">
+        <% Tasks.forEach((task,index) =>{ %>
+
+            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 my-2">
+                <div class="card" id="<%= index %>">
+                    <div class="card-body text-center">
+                        <h5 class="card-title"> <%= task.nombre %> </h5>
+                        <hr>
+                        <h6 class="card-subtitle mb-2 text-muted">  </h6>
+                        <p class="card-text"> <%= task.motivo %> </p>
+                        <hr>
+                        <figcaption class=" badge text-dark text-wrap"><%= task.fecha %></figcaption>
+                        <div class="d-grid gap-2 d-md-inline-flex gap-md-0">
+                            <button class="btn btn-warning mx-2" value="<%= task._id%>" onclick="editarTarea('<%= task._id%>')" >Editar</button>
+                            <button class="btn btn-danger mx-2" value="<%= task._id%>" onclick="eliminarTarea('<%= task._id%>')" >Eliminar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <%})%>
+        
+    </div>
+</div>

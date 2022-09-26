@@ -1,43 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
+<%-  include('./partials/header.ejs') %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="	https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css">
-    <title>Document</title>
-</head>
-
-<body>
-    
-    <div class="container">
-        
-        <div class="row my-5">
-            <% Tasks.forEach(task =>{ %>
-
-                <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
-                    <div class="card" style="width: 18rem;" >
-                        <div class="card-body text-center">
-                            <h5 class="card-title"> <%= task.nombre %> </h5>
-                            <hr>
-                            <h6 class="card-subtitle mb-2 text-muted">  </h6>
-                            <p class="card-text"> <%= task.motivo %> </p>
-                            <hr>
-                            <figcaption class=" badge text-dark text-wrap"><%= task.fecha %></figcaption>
-                        </div>
-                    </div>
-                </div>
-
-            <%})%>
-            
-        </div>
-    </div>
+<!-- se incluye el carousel -->
+<div class="container">
+    <%- include('./carousel/carouse.ejs') %> 
+</div>
+<!-- se incluyen las cartas -->
+<%- include('./tasksCards/renderCard.ejs') %>     
 
 
 
-
-    <script src="	https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
-</html>
+<%- include('./partials/footer.ejs') %> 

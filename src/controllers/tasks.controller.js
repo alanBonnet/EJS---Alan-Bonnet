@@ -6,7 +6,7 @@ const { findByIdAndUpdate } = require('../models/USERS');
 const ctrlTask = {};
 
 ctrlTask.getTasks = async (req, res) => {
-    const Tasks = await TaskModel.find(/* {isActive:true} */);//devuelve solo las tareas que tengan su propiedad isActive en true
+    const Tasks = await TaskModel.find({isActive:true});//devuelve solo las tareas que tengan su propiedad isActive en true
 
     return res.render("index",{Tasks})
 }
@@ -111,7 +111,9 @@ ctrlTask.deleteTask = async (req, res) => {
     try {
      await TaskModel.findByIdAndUpdate(id, {isActive:false});
 
-     return res.status(200)
+     return res.status(200).json({
+        message:"Usuario eliminado correctamente"
+     })
     } catch (err) {
       console.log(err.message)
       return res.status(500).json({
