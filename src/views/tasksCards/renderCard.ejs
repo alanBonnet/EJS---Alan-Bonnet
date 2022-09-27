@@ -1,26 +1,80 @@
 <div class="container">
-        
-    <div class="row my-5">
-        <% Tasks.forEach((task,index) =>{ %>
 
-            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 my-2">
-                <div class="card" id="<%= index %>">
-                    <div class="card-body text-center">
-                        <h5 class="card-title"> <%= task.nombre %> </h5>
-                        <hr>
-                        <h6 class="card-subtitle mb-2 text-muted">  </h6>
-                        <p class="card-text"> <%= task.motivo %> </p>
-                        <hr>
-                        <figcaption class=" badge text-dark text-wrap"><%= task.fecha %></figcaption>
-                        <div class="d-grid gap-2 d-md-inline-flex gap-md-0">
-                            <button class="btn btn-warning mx-2" value="<%= task._id%>" onclick="editarTarea('<%= task._id%>')" >Editar</button>
-                            <button class="btn btn-danger mx-2" value="<%= task._id%>" onclick="eliminarTarea('<%= task._id%>')" >Eliminar</button>
+    <div class="row my-5">
+        <% Tasks.forEach((task,index) => { %>
+
+        <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 my-2">
+            <div class="card" id="<%= index %>">
+                <div class="card-body text-center">
+                    <h5 class="card-title"> <%= task.nombre %> </h5>
+                    <hr>
+                    <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                    <p class="card-text"> <%= task.motivo %> </p>
+                    <hr>
+                    <% let estado ="";let estadoColor="";
+                        if(task.estado ==1){
+                            estado = "Pendiente";estadoColor="bg-danger"
+                        }else if(task.estado == 2){
+                            estado= "En Progreso";estadoColor="bg-warning"
+                        }else{estado="Completado";estadoColor="bg-success"}%>
+
+                    <p class="badge text-wrap <%= estadoColor %> "><%=estado%></p>
+                    <figcaption class=" badge text-dark text-wrap"><%= task.fecha %></figcaption>
+                    <div class="d-grid gap-2 d-md-inline-flex gap-md-0">
+                        <button class="btn btn-danger mx-2" value="<%= task._id%>"
+                            onclick="eliminarTarea('<%= task._id%>')">Eliminar</button>
+                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#Modal<%= index %>">
+                                Editar
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-
+            <!-- Button trigger modal -->
+            
+            <!-- Modal -->
+            <div class="modal fade" id="Modal<%= index %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="edit_<%= index %>">
+                                <div class="mb-3">
+                                    <label for="nombreTarea" class="form-label">Nombre Tarea</label>
+                                    <input type="text" class="form-control" id="nombreTarea<%= index %>" aria-describedby="desnombreTarea" value="<%= task.nombre %>">
+                                    <div id="desnombreTarea<%= index %> " class="form-text">Ingrese el nombre de la tarea</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="motivoTarea" class="form-label">Motivo de la Tarea</label>
+                                    <input type="text" class="form-control" id="motivoTarea<%= index %>" value="<%= task.motivo %>">
+                                </div>
+                                <div class="mb-3 input-group">
+                                    <label for="" class="input-group-text">Ingrese la fecha:</label>
+                                    <input type="date" name="" id="fechaTarea<%= index %>" class="form-control">
+                                    <label for="" class="input-group-text">Ingrese la hora:</label>
+                                    <input type="time" name="" id="horaTarea<%= index %>" class="form-control">
+                                    <select name="estadoTarea" id="estadoTarea<%=index %>" class="form-select">
+                                        <option value="1">Pendiente</option>
+                                        <option value="2">En Progreso</option>
+                                        <option value="3">Completado</option>
+                                    </select>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button class="btn btn-primary mx-2" value="<%= task._id%>"
+                                onclick="editarTarea('<%=task._id%>','<%=index%>')">Guardar Cambios</button>
+                            
+                        </div>
+                </div>
+            </div>
+        </div>
         <%})%>
-        
+
     </div>
 </div>

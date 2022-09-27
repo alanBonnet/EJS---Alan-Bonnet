@@ -1,6 +1,5 @@
 // Importamos el modelo
 const TaskModel = require('../models/TASKS');
-const { findByIdAndUpdate } = require('../models/USERS');
 
 // Inicializamos el objeto CtrlTask
 const ctrlTask = {};
@@ -68,7 +67,7 @@ ctrlTask.putTask = async (req, res) => {
 
     const id = req.params.idTask;
 
-    const { nombre, motivo , ... otroDato } = req.body;
+    const { nombre, motivo , fecha, estado } = req.body;
 
     if(!id || !nombre || !motivo) {
         return res.status(400).json({
@@ -76,18 +75,18 @@ ctrlTask.putTask = async (req, res) => {
         })
     }
     try {
-        const tareaActualizada = await TaskModel.findByIdAndUpdate(id, {nombre, motivo}, (err, docs)=>{
+        const tareaActualizada = await TaskModel.findByIdAndUpdate(id, {nombre, motivo,fecha,estado}/* , (err, docs)=>{
             if(err){
                 console.log(err)
             }else{
                 console.log("updated User : ", docs)
             }
-        });
-        res.json({
+        } */);
+        return res.json({
             tareaActualizada
         })
     } catch (error) {
-        console.log(error.message);
+        // console.log(error.message);
         return res.status(500).json({
             msg: "Error al actualizar la tarea"
         })
@@ -111,11 +110,11 @@ ctrlTask.deleteTask = async (req, res) => {
     try {
      await TaskModel.findByIdAndUpdate(id, {isActive:false});
 
-     return res.status(200).json({
+     return res.send({
         message:"Usuario eliminado correctamente"
      })
     } catch (err) {
-      console.log(err.message)
+      console.log(err)
       return res.status(500).json({
         msg: 'Internal Server Error' 
      })
