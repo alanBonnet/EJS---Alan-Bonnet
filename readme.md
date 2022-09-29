@@ -1,7 +1,7 @@
 ## Aqui se aloja las practicas de cómo hacer un sv con nodejs 
 ### Intalacion de dependencias
 ```
-    npm i express cors dotenv morgan mongoose
+    npm i express cors dotenv morgan mongoose ejs helmet
 ```
 ### En caso de requerir nodemon
 ```
