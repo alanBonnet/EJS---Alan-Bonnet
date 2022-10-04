@@ -21,7 +21,8 @@ const TaskSchema = new Schema(
         },
         estado:{
             type:Number,
-            max:3,
+            min:0,
+            max:4,
             default:1
         },
         isActive:{

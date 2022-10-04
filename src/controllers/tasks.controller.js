@@ -21,9 +21,10 @@ ctrlTask.getTasks = async (req, res) => {
 ctrlTask.getTask1 = async (req, res) => {
     try {
         // || TaskModel.find({id: req.params['idTask']}))
-        const Task = await TaskModel.findById(req.params['idTask'] ) ;
+        const idTask = req.params['idTask']
+        const Task = await TaskModel.findById(idTask) ;
         const vaciOLleno = Task === null
-        if(!vaciOLleno || Task.length > 0){
+        if(!vaciOLleno){
             return res.json(
                 {
                     message: "Tarea encontrada.",

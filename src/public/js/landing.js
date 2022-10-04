@@ -29,10 +29,10 @@ const editarTarea = async (id,index) => {
     const form = {
         nombre:nombreTarea.value,
         motivo:motivoTarea.value,
-        fecha: new Date(`${formatoFecha}${formatoHora}`),
-        estado:estadoTarea.options[estadoTarea.selectedIndex].index
+        fecha: `${formatoFecha}${formatoHora}`,
+        estado:estadoTarea.options[estadoTarea.selectedIndex].index + 1
     }
-    console.log(form)
+    // console.log(form)
     try {
         await fetch(`http://localhost:3000/task/${id}`,
             {
@@ -50,7 +50,6 @@ const editarTarea = async (id,index) => {
         })
         .then(res => res.json())
         .then(data => {console.log(data); setTimeout(()=>{location.reload()},5000)})
-        .catch(error => console.log(error))
     } catch (error) {
         console.log(error.message)
     }
